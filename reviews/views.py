@@ -1,3 +1,4 @@
+from reviews.models import ReviewModel
 from django.views import View
 from reviews.forms import ReviewForm
 from django.http.response import HttpResponseRedirect
@@ -31,4 +32,25 @@ class ThankYouView(TemplateView):
         context = super().get_context_data(**kwargs)
         # * Here we can pass data to the HTML template
         context["message"] = "This is Works"
+        return context
+
+
+class ReviewListView(TemplateView):
+    template_name = "reviews/review_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        review_model = ReviewModel.objects.all()
+        context["reviews"] = review_model
+        return context
+
+
+class ReviewDetailView(TemplateView):
+    template_name = "reviews/review_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        review_id = kwargs["id"]
+        selected_review = ReviewModel.objects.get(pk=review_id)
+        context["review"] = selected_review
         return context
