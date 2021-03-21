@@ -7,14 +7,15 @@ from .models import ReviewModel
 
 def review(request):
     if request.method == 'POST':
-
-        form = ReviewForm(request.POST)
+        # *For updating a existing_data we use that id and pass it as a Instance
+        # existing_data= ReviewModel.objects.get(pk=1)
+        form = ReviewForm(request.POST,
+        # ?Here we pass is as instance of data
+        # instance=existing_data
+        )
         if form.is_valid():
-            review = ReviewModel(
-                user_name=form.cleaned_data['user_name'],
-                review_text=form.cleaned_data['review_text'],
-                rating=form.cleaned_data['rating'])
-            review.save()
+            # * If we are using model form
+            form.save()
             return HttpResponseRedirect("/thank-you")
     else:
         form = ReviewForm()
