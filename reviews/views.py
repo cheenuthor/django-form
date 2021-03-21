@@ -4,6 +4,7 @@ from reviews.forms import ReviewForm
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
+from django.views.generic import ListView
 # from .models import ReviewModel
 # Create your views here.
 
@@ -35,14 +36,17 @@ class ThankYouView(TemplateView):
         return context
 
 
-class ReviewListView(TemplateView):
+class ReviewListView(ListView):
     template_name = "reviews/review_list.html"
+    model = ReviewModel
+    context_object_name = "reviews"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        review_model = ReviewModel.objects.all()
-        context["reviews"] = review_model
-        return context
+    # * we dont need query_set for displaying
+    #  ? it is only mean for filtering
+    def get_queryset(self):
+        base_queryset = super().get_queryset()
+        # ? Here we can filter the data we should return to the HTML template
+        return base_queryset.filter(rating__gt=2)
 
 
 class ReviewDetailView(TemplateView):
