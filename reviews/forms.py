@@ -19,6 +19,18 @@ class ReviewForm(forms.ModelForm):
         # ?here we can explicitly set which model field should be render in html
         # fields = ['user_name', 'review_text', 'rating']
         # ?here we set to all fields
-        fields = '__all__'
+        fields = "__all__"
         # *If we used __all__ we can use exclude
         # exclude = ['some_field']
+        # configuring Model.Form
+        label = {
+            "user_name": "Your Name",
+            "review_text": "Your FeedBack",
+            "rating": "Your Rating"
+        }
+        error_messages = {
+            "user_name": {
+                "required": "your name must not be empty",
+                "max_length": "Please enter a shorter name!"
+            }
+        }
