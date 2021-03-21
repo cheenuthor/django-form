@@ -3,5 +3,7 @@ from . import views
 
 
 urlpatterns = [
-    path("", views.review), path("thank-you", views.thank_you)
+    #* using class based view 
+    path("", views.ReviewView.as_view()),
+    path("thank-you", views.thank_you)
 ]
